@@ -1,0 +1,66 @@
+@font-face{
+    font-family:'digital-timer';
+    src: url('@/assets/fonts/digital/digital-7.ttf');
+}
+body{
+    background-color: #14532d;
+    font-family: "Battambang", system-ui;
+}
+.header{
+    color: #fff;
+    background-color: #166534;
+    padding: 15px 0;
+}
+.logo{
+    width: 100%;
+}
+.logo img{
+    width: 30%;
+}
+.title{
+    width: 100%;
+    text-align: center;
+}
+.title h1{
+    font-family: "Moul", serif;
+    margin-top: 15px;
+}
+.title h2{
+    font-family: "Battambang", system-ui;
+    margin-top: 20px;
+}
+.header .time{
+    text-align: right;
+    font-family:'digital-timer';
+    font-size: 42px;
+    letter-spacing: 5px;
+    margin-top: 65px;
+    margin-right: 20px;
+}
+
+.body-content{
+    color: #fff;
+    width: 100%;
+    float: left;
+}
+.header-row{
+    font-size: 18px;
+    padding: 10px 0px;
+    border-bottom: 2px solid rgb(148, 171, 4);
+    font-family: "Moul", serif;
+}
+.data-row{
+    font-size: 20px;
+    padding: 15px 0px;
+    color: #fff;
+    border-bottom: 1px solid #ffffff;
+}
+.font-muol{
+    font-family: "Moul", serif;
+}
+.color-yellow{
+    color: 	#ffff00;
+}
+.color-gold{
+    color: #ffd700;
+}
