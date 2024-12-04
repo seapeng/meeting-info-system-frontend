@@ -25,7 +25,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <div class="float-left">
-                        <h6 class="m-0 font-weight-bold text-primary">ថ្នាក់ដឹកនាំ</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">កិច្ចប្រជុំ</h6>
                     </div>
                     
                     <div class="float-right margin-top-2">

@@ -14,10 +14,30 @@
 
          <!-- Nav Item - Dashboard -->
          <li class="nav-item active">
-            <a class="nav-link" href="./">
+            <router-link to="dashboard" class="nav-link">
                <i class="bi bi-speedometer2"></i>
                <span>ផ្ទាំងបង្ហាញទូទៅ</span>
-            </a>
+            </router-link>
+         </li>
+
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+         <!-- Heading -->
+         <div class="sidebar-heading">
+            សកម្មភាព
+         </div>
+         <li class="nav-item">
+            <router-link to="meeting" class="nav-link">
+               <i class="bi bi-speedometer2"></i>
+               <span>បញ្ចូលកិច្ចប្រជុំ</span>
+            </router-link>
+         </li>
+         <li class="nav-item">
+            <router-link to="history" class="nav-link">
+               <i class="bi bi-speedometer2"></i>
+               <span>ប្រវត្តិកិច្ចប្រជុំ</span>
+            </router-link>
          </li>
 
          <!-- Divider -->
@@ -35,13 +55,13 @@
          </li>
          <li class="nav-item">
             <router-link to="room" class="nav-link">
-               <i class="bi bi-speedometer2"></i>
+               <i class="bi bi-door-closed-fill"></i>
                <span>បន្ទប់ប្រជុំ</span>
             </router-link>
          </li>
          <li class="nav-item">
             <router-link to="building" class="nav-link">
-               <i class="bi bi-speedometer2"></i>
+               <i class="bi bi-building-fill"></i>
                <span>អាគារ</span>
             </router-link>
          </li>
@@ -54,7 +74,7 @@
             អ្នកគ្រប់គ្រង
          </div>
          <li class="nav-item">
-            <router-link to="room" class="nav-link">
+            <router-link to="admin" class="nav-link">
                <i class="bi bi-speedometer2"></i>
                <span>គណនីគ្រប់គ្រង</span>
             </router-link>
