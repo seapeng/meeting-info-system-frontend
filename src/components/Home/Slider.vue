@@ -57,7 +57,7 @@
         itemsToShow: i>3?3:i,
         gap: 5,
         height: 520,
-        autoplay:i>3?1000:0,
+        autoplay:i>3?10000:0,
       };
   
       return {

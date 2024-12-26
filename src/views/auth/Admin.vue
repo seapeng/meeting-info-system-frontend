@@ -1,5 +1,4 @@
 <template>
-   <div id="page-top"></div>
    <!-- Page Wrapper -->
    <div id="wrapper">
 
