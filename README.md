@@ -1,5 +1,10 @@
 # frontend
 
+## Get project
+```
+git clone https://github.com/seapeng/meeting-info-system-frontend.git
+```
+
 ## Project setup
 ```
 npm install

@@ -100,7 +100,7 @@
         components: {
             Sidebar,
             Topbar,
-            Footer
+            Footer,
         },
     };
 </script>
