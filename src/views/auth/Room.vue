@@ -88,11 +88,21 @@
                         </div>
                         <div class="form-group">
                             <label for="name">អាគារ :</label>
-                            <input class="form-control" name="building" type="text" required>
+                            <select name="building" class="form-control">
+                                <optgroup label="អាគារ">
+                                    <option value="building_id">ផ្ការំដួល</option>
+                                    <option value="building_id">តេជោសន្តិភាព</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name">ជាន់ :</label>
-                            <input class="form-control" name="floor" type="text" required>
+                            <select name="floor" class="form-control">
+                                <optgroup label="ជាន់">
+                                    <option value="floor_id">ជាន់ផ្ទាល់ដី</option>
+                                    <option value="floor_id">ជាន់ទី១</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" data-dismiss="modal">បដិសេធ</button>

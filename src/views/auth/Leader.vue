@@ -77,15 +77,15 @@
                             <input class="form-control" name="sort" type="number" required>
                         </div>
                         <div class="form-group">
-                            <label for="name">ឈ្មោះបន្ទប់ :</label>
+                            <label for="name">គោរមងារ :</label>
                             <input class="form-control" name="name" type="text" required>
                         </div>
                         <div class="form-group">
-                            <label for="name">អាគារ :</label>
+                            <label for="name">គោត្តនាម និងនាមថ្នាក់ដឹកនាំ :</label>
                             <input class="form-control" name="building" type="text" required>
                         </div>
                         <div class="form-group">
-                            <label for="name">ជាន់ :</label>
+                            <label for="name">តួនាទី :</label>
                             <input class="form-control" name="floor" type="text" required>
                         </div>
                         <div class="modal-footer">
