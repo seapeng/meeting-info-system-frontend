@@ -101,7 +101,12 @@
                         </div>
                         <div class="form-group">
                             <label for="name">ដឹកនាំដោយ :</label>
-                            <input class="form-control" name="building" type="text" required>
+                            <select name="manager" class="form-control">
+                                <optgroup label="ដឹកនាំដោយ">
+                                    <option value="manager_id">ឯកឧត្តម ឌិត ទីណា រដ្ឋមន្ត្រីក្រសួងកសិកម្ម រុក្ខាប្រមាញ់ និងនេសាទ</option>
+                                    <option value="manager_id">ឯកឧត្តម អ៉ឹម ស៊ីថុល រដ្ឋលេខាធិការប្រចាំការ</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="start_time">ម៉ោងប្រជុំ :</label>
@@ -112,7 +117,12 @@
                         </div>
                         <div class="form-group">
                             <label for="name">បន្ទប់ប្រជុំ :</label>
-                            <input class="form-control" name="floor" type="text" required>
+                            <select name="room" class="form-control">
+                                <optgroup label="ដឹកនាំដោយ">
+                                    <option value="room_id">សាលពិដោរ</option>
+                                    <option value="room_id">លឿងរាជ</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" data-dismiss="modal">បដិសេធ</button>

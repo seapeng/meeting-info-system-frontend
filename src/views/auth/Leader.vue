@@ -78,7 +78,12 @@
                         </div>
                         <div class="form-group">
                             <label for="name">គោរមងារ :</label>
-                            <input class="form-control" name="name" type="text" required>
+                            <select name="title" class="form-control">
+                                <optgroup label="គោរមងារ">
+                                    <option value="title_id">ឯកឧត្តម</option>
+                                    <option value="title_id">លោកជំទាវ</option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name">គោត្តនាម និងនាមថ្នាក់ដឹកនាំ :</label>
