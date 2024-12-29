@@ -31,9 +31,9 @@
                                             <th>ផ្សេងៗ</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
-                                        <tr v-for="(building, index) in datas" :key="index">
+                                        <tr v-for="(building, index) in buildings" :key="index">
                                             <td>1</td>
                                             <td>{{ building.name }}</td>
                                             <td>
@@ -56,7 +56,8 @@
     </div>
 
     <!-- Create Modal-->
-    <div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -75,13 +76,66 @@
                         </div>
                     </form>
                 </div>
-                
+
             </div>
         </div>
     </div>
 
 </template>
 
+<script>
+import axios from 'axios';
+import Sidebar from '@/components/Auth/Sidebar.vue';
+import Topbar from '@/components/Auth/Topbar.vue';
+import Footer from '@/components/Auth/Footer.vue';
+
+import useBuidlingStore from "@/store/building.js";
+import { mapActions, mapState } from "pinia";
+
+const getAllBuilding = async () => {
+    await axios.get('/api/v1/buildings', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(response => {
+        if (response.data.success) {
+            this.buildings = response.data.data;
+        }
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+export default {
+    components: {
+        Sidebar,
+        Topbar,
+        Footer,
+    },
+    data() {
+        return {
+            buildings: []
+        }
+    },
+    async created() {
+        await axios.get('/api/v1/buildings', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(response => {
+            if (response.data.success) {
+                this.buildings = response.data.data;
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+    },
+    mounted() {
+
+    },
+}
+</script>
+<!-- 
 <script>
     import Sidebar from '@/components/Auth/Sidebar.vue';
     import Topbar from '@/components/Auth/Topbar.vue';
@@ -113,4 +167,4 @@
             ...mapActions(useBuidlingStore, ["getAllBuildings"]),
         }
     };
-</script>
+</script> -->
