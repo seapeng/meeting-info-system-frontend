@@ -24,10 +24,6 @@
                                         <router-link to="dashboard" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </router-link>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="bi bi-google"></i> Login with Google
-                                        </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">

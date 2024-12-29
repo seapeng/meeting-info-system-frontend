@@ -92,9 +92,9 @@
 </template>
 
 <script>
-    import Footer from '@/components/Auth/Footer.vue';
     import Sidebar from '@/components/Auth/Sidebar.vue';
     import Topbar from '@/components/Auth/Topbar.vue';
+    import Footer from '@/components/Auth/Footer.vue';
 
     export default {
         components: {
