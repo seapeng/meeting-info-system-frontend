@@ -1,9 +1,7 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-
             <div class="col-xl-10 col-lg-12 col-md-9">
-
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
@@ -14,21 +12,28 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">ប្រព័ន្ធគ្រប់គ្រងបន្ទប់ប្រជុំ</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" @submit.prevent="login">
                                         <div class="form-group">
-                                            <input type="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Username">
+                                            <input type="text" class="form-control form-control-user"
+                                                aria-describedby="emailHelp"
+                                                placeholder="Username" v-model="username">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user"
+                                                placeholder="Password" v-model="password" autocomplete="off">
                                         </div>
-                                        <router-link to="dashboard" class="btn btn-primary btn-user btn-block">
+                                            <span>{{ errors }}</span>
+                                        <div>
+
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </router-link>
+                                        </button>
                                     </form>
                                     <hr>
-                                    <div class="text-center">
+                                    <!-- <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -40,3 +45,42 @@
         </div>
     </div>
 </template>
+
+<script>
+import axios from 'axios';
+
+// import Axios from '@/utils/Axios';
+
+export default {
+    data() {
+        return {
+            username: '',
+            password: '',
+            errors:'',
+        }
+    },
+    methods: {
+        async login() {
+            try {
+                await axios.post('/api/v1/auth/sign-in', {
+                    username: this.username,
+                    password: this.password
+                },{headers:{
+                    'Content-Type': 'application/json'
+                }}).then(response => {
+                    if (response.data.success) {
+                        localStorage.setItem('token', response.data.data.accessToken);
+                        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+                        this.$router.push({name: 'admin.dashboard'});
+                    } else {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                    }
+                });
+            } catch (err) {   
+                this.errors = "invlaide username or password";
+            }
+        }
+    }
+}
+</script>

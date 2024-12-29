@@ -32,11 +32,24 @@
             <div class="modal-body">Select "Logout" if you are ready to end.</div>
             <div class="modal-footer">
                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-               <a class="btn btn-primary" href="administra">Logout</a>
+               <!-- <a class="btn btn-primary" href="administra">Logout</a> -->
+               <button class="btn btn-primary" @click="logout">Logout</button>
             </div>
          </div>
       </div>
    </div>
 
 </template>
+
+<script>
+   export default{
+      methods:{
+         logout(){
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            this.$router.push({name: 'signin'});
+         }
+      }
+   }
+</script>
    

@@ -14,7 +14,7 @@
 
          <!-- Nav Item - Dashboard -->
          <li class="nav-item" v-for="(menu, index) in menus" :key="index">
-            <router-link :to="menu.link" class="nav-link">
+            <router-link :to="{name:`${menu.link}`}" class="nav-link">
                <i :class="menu.icon"></i>
                <span>{{ menu.name }}</span>
             </router-link>
@@ -30,13 +30,13 @@ export default {
    data(){
       return{
          menus:[
-            {icon:'bi-speedometer2', name:'ផ្ទាំងបង្ហាញទូទៅ', link:"./dashboard"},
-            {icon:'bi bi-journal-album', name:'បញ្ចូលកិច្ចប្រជុំ', link:"./meeting"},
-            {icon:'bi bi-clock-history', name:'ប្រវត្តិកិច្ចប្រជុំ', link:"./history"},
-            {icon:'bi bi-person-lines-fill', name:'ថ្នាក់ដឹកនាំ', link:"./leader"},
-            {icon:'bi bi-door-closed-fill', name:'បន្ទប់ប្រជុំ', link:"./room"},
-            {icon:'bi bi-buildings-fill', name:'អាគារ', link:"./building"},
-            {icon:'bi bi-person-fill', name:'គណនីគ្រប់គ្រង', link:"./admin"},
+            {icon:'bi-speedometer2', name:'ផ្ទាំងបង្ហាញទូទៅ', link:"admin.dashboard"},
+            {icon:'bi bi-journal-album', name:'បញ្ចូលកិច្ចប្រជុំ', link:"admin.meeting"},
+            {icon:'bi bi-clock-history', name:'ប្រវត្តិកិច្ចប្រជុំ', link:"admin.history"},
+            {icon:'bi bi-person-lines-fill', name:'ថ្នាក់ដឹកនាំ', link:"admin.leader"},
+            {icon:'bi bi-door-closed-fill', name:'បន្ទប់ប្រជុំ', link:"admin.room"},
+            {icon:'bi bi-buildings-fill', name:'អាគារ', link:"admin.building"},
+            {icon:'bi bi-person-fill', name:'គណនីគ្រប់គ្រង', link:"admin.admin"},
          ]
       }
    },
