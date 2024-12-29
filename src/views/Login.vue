@@ -15,14 +15,13 @@
                                     <form class="user" @submit.prevent="login">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                aria-describedby="emailHelp"
-                                                placeholder="Username" v-model="username">
+                                                aria-describedby="emailHelp" placeholder="Username" v-model="username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
                                                 placeholder="Password" v-model="password" autocomplete="off">
                                         </div>
-                                            <span>{{ errors }}</span>
+                                        <span>{{ errors }}</span>
                                         <div>
 
                                         </div>
@@ -44,40 +43,48 @@
 
         </div>
     </div>
+    <!-- Loading Spinner component -->
+    <Loading :isLoading="actionLoading" />
 </template>
 
 <script>
 import axios from 'axios';
-
-// import Axios from '@/utils/Axios';
+import Loading from '@/components/Loading.vue';
 
 export default {
     data() {
         return {
             username: '',
             password: '',
-            errors:'',
+            errors: '',
+            actionLoading: false,
         }
+    },
+    components:{
+        Loading,
     },
     methods: {
         async login() {
             try {
+                this.actionLoading = true;
                 await axios.post('/api/v1/auth/sign-in', {
                     username: this.username,
                     password: this.password
-                },{headers:{
-                    'Content-Type': 'application/json'
-                }}).then(response => {
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
                     if (response.data.success) {
                         localStorage.setItem('token', response.data.data.accessToken);
                         localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                        this.$router.push({name: 'admin.dashboard'});
+                        this.$router.push({ name: 'admin.dashboard' });
                     } else {
                         localStorage.removeItem('token');
                         localStorage.removeItem('user');
                     }
-                });
-            } catch (err) {   
+                }).finally(() => this.actionLoading = false);
+            } catch (err) {
                 this.errors = "invlaide username or password";
             }
         }

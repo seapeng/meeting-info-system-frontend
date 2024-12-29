@@ -10,7 +10,7 @@ module.exports = defineConfig({
   devServer:{
     proxy: {
       '/api': {
-        target: 'https://meetingapi.daovitou.net',
+        target: 'http://localhost:4000',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
