@@ -33,17 +33,9 @@
                                     </thead>
                                     
                                     <tbody>
-                                        <tr>
+                                        <tr v-for="(building, index) in datas" :key="index">
                                             <td>1</td>
-                                            <td>ផ្ការំដួល</td>
-                                            <td>
-                                                <i class="bi bi-pencil-square"></i> |
-                                                <i class="bi bi-trash-fill"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>តេជោសន្តិភាព</td>
+                                            <td>{{ building.name }}</td>
                                             <td>
                                                 <i class="bi bi-pencil-square"></i> |
                                                 <i class="bi bi-trash-fill"></i>
@@ -87,7 +79,6 @@
             </div>
         </div>
     </div>
-   
 
 </template>
 
@@ -96,11 +87,30 @@
     import Topbar from '@/components/Auth/Topbar.vue';
     import Footer from '@/components/Auth/Footer.vue';
 
+    import useBuidlingStore from "@/store/building.js";
+    import { mapActions, mapState } from "pinia";
+
     export default {
         components: {
             Sidebar,
             Topbar,
             Footer,
         },
+        data() {
+            return {
+                datas: [],
+            };
+        },
+        async created() {
+            await this.getAllBuildings();
+            // console.log(this.services);
+            this.datas = this.buildings;
+        },
+        computed: {
+            ...mapState(useBuidlingStore, ["buildings"]),
+        },
+        methods: {
+            ...mapActions(useBuidlingStore, ["getAllBuildings"]),
+        }
     };
 </script>
