@@ -1,14 +1,5 @@
 <template>
-    <div id="wrapper">
-        <!-- Sidebar -->
-        <Sidebar></Sidebar>
-
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <!-- Topbar -->
-                <Topbar></Topbar>
-
-                <div class="container-fluid">
+    <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div class="float-left">
@@ -58,14 +49,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Footer -->
-            <Footer></Footer>
-
-        </div>
-    </div>
-
     <!-- Create Modal-->
     <div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -102,15 +85,5 @@
 </template>
 
 <script>
-    import Footer from '@/components/Auth/Footer.vue';
-    import Sidebar from '@/components/Auth/Sidebar.vue';
-    import Topbar from '@/components/Auth/Topbar.vue';
-
-    export default {
-        components: {
-            Sidebar,
-            Topbar,
-            Footer
-        },
-    };
+   
 </script>

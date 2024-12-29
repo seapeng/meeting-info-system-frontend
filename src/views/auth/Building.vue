@@ -1,57 +1,41 @@
 <template>
-    <div id="wrapper">
-        <!-- Sidebar -->
-        <Sidebar></Sidebar>
+    <div class="container-fluid">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <div class="float-left">
+                    <h6 class="m-0 font-weight-bold text-primary">អាគារ</h6>
+                </div>
 
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <!-- Topbar -->
-                <Topbar></Topbar>
-
-                <div class="container-fluid">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <div class="float-left">
-                                <h6 class="m-0 font-weight-bold text-primary">អាគារ</h6>
-                            </div>
-
-                            <div class="float-right margin-top-2">
-                                <a href="#" data-toggle="modal" data-target="#CreateModal">
-                                    <i class="fas fa-fw fa-plus-circle"></i> បង្កើតថ្មី
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>ល.រ</th>
-                                            <th>ឈ្មោះអាគារ</th>
-                                            <th>ផ្សេងៗ</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr v-for="(building, index) in buildings" :key="index">
-                                            <td>1</td>
-                                            <td>{{ building.name }}</td>
-                                            <td>
-                                                <i class="bi bi-pencil-square"></i> |
-                                                <i class="bi bi-trash-fill"></i>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                <div class="float-right margin-top-2">
+                    <a href="#" data-toggle="modal" data-target="#CreateModal">
+                        <i class="fas fa-fw fa-plus-circle"></i> បង្កើតថ្មី
+                    </a>
                 </div>
             </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ល.រ</th>
+                                <th>ឈ្មោះអាគារ</th>
+                                <th>ផ្សេងៗ</th>
+                            </tr>
+                        </thead>
 
-            <!-- Footer -->
-            <Footer></Footer>
-
+                        <tbody>
+                            <tr v-for="(building, index) in buildings" :key="index">
+                                <td>1</td>
+                                <td>{{ building.name }}</td>
+                                <td>
+                                    <i class="bi bi-pencil-square"></i> |
+                                    <i class="bi bi-trash-fill"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -61,14 +45,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <form method="post" action="">
+                    <form method="post" @submit.prevent="onCreateBuilding">
                         <div class="form-group">
-                            <label for="sort">លេខលំដាប់ :</label>
-                            <input class="form-control" name="sort" type="number" required>
+                            <label for="orderNumber">លេខលំដាប់ :</label>
+                            <input class="form-control" type="number" v-model="orderNumber" required>
                         </div>
                         <div class="form-group">
                             <label for="name">ឈ្មោះអាគារ :</label>
-                            <input class="form-control" name="name" type="text" required>
+                            <input class="form-control" type="text" v-model="name" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" data-dismiss="modal">បដិសេធ</button>
@@ -85,9 +69,8 @@
 
 <script>
 import axios from 'axios';
-import Sidebar from '@/components/Auth/Sidebar.vue';
-import Topbar from '@/components/Auth/Topbar.vue';
-import Footer from '@/components/Auth/Footer.vue';
+
+
 
 import useBuidlingStore from "@/store/building.js";
 import { mapActions, mapState } from "pinia";
@@ -107,17 +90,15 @@ const getAllBuilding = async () => {
 }
 
 export default {
-    components: {
-        Sidebar,
-        Topbar,
-        Footer,
-    },
+    
     data() {
         return {
-            buildings: []
+            buildings: [],
+            orderNumber: '',
+            name: ''
         }
     },
-    async created() {
+    async beforeCreate() {
         await axios.get('/api/v1/buildings', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -130,9 +111,32 @@ export default {
             console.error(error);
         });
     },
-    mounted() {
-
-    },
+    methods: {
+        async onCreateBuilding() {
+            try {
+                await axios.post('/api/v1/buildings', {
+                    orderNumber: this.orderNumber,
+                    name: this.name
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }).then(response => {
+                    if (response.data.success) {
+                        this.buildings.push(response.data.data);
+                        this.orderNumber = '';
+                        this.name = '';
+                        this.$router.push({ name: 'admin.building' });
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 }
 </script>
 <!-- 
