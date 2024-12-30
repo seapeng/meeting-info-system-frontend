@@ -23,16 +23,17 @@
   </template>
   
   <script>
+  import moment from 'moment';
     export default {
       data() {
         return {
           currentDate: new Date(), // Format the date as per your locale
-          currentTime: new Date().toLocaleTimeString(),
+          currentTime: moment(new Date()).format("H:mm:ss"),
         };
       },
       methods: {
         updateTime() {
-          this.currentTime = new Date().toLocaleTimeString();
+          this.currentTime = moment(new Date()).format("H:mm:ss");
         },
       },
       mounted() {

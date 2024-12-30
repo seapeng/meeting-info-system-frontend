@@ -9,61 +9,80 @@
       </div>
 
       <Carousel v-bind="config">
-        
-        <Slide v-for="slide in 4" :key="slide" style="height:auto">
-          <div class="row data-row">
-              <div class="col-lg-2 col-md-2">
-                <div>២០ វិច្ឆិកា ២០២៤</div>
-                ម៉ោង 10:00
+
+        <Slide v-for="slide in meetingList" :key="slide" style="height:auto">
+          <div class="container-fluid row data-row text-start">
+            <div class="col-lg-2 col-md-2">
+              <div>{{ slide.date }}</div>
+              ម៉ោង {{ slide.startTime.name }}
+            </div>
+            <div class="col-6">
+              <p>{{ slide.title }}</p>
+              <div>
+                ដឹកនាំដោយ៖ {{ slide.management.title.name }}
+                <span class="font-muol color-gold">{{ slide.management.fullName }}</span>
+                {{ slide.management.position }}
               </div>
-              <div class="col-6">
-                <p>កិច្ចប្រជុំពិភាក្សាលើការអនុវត្តគម្រោងស្តារ និងដាំព្រៃកោងកាងរបស់ក្រុមហ៊ុន ATR និងក្រុមហ៊ុន T&T</p>      
-                <div>ដឹកនាំដោយ៖ ឯកឧត្តម <span class="font-muol color-gold">កែវ អូម៉ាលីស្ស</span> រដ្ឋលេខាធិការ</div>
-              </div>
-              <div class="col-3">
-                <p><span>អគារ៖ </span>តេជោសន្តិភាព</p>
-                <p><span>ជាន់៖ </span>ទី១</p>
-                <p><span>បន្ទប់៖ </span>បូព្រឹក</p>
-              </div>
-              <div class="col-1">កំពុងប្រជុំ</div>
+            </div>
+            <div class="col-3">
+              <p><span>អគារ៖ </span>{{ slide.room.building.name }}</p>
+              <p><span>ជាន់៖ </span>{{ slide.room.floor.name }}</p>
+              <p><span>បន្ទប់៖ </span>{{ slide.room.name }}</p>
+            </div>
+            <div class="col-1">{{ slide.status.name }}</div>
           </div>
         </Slide>
-    
+
       </Carousel>
 
 
     </div>
   </div>
-    
-</template>
-  
-<script>
-  // If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
-  import 'vue3-carousel/dist/carousel.css'
-  import { Carousel, Slide } from 'vue3-carousel'
 
-  const i = 4;
-  
-  export default {
-    name: 'App',
-    components: {
-      Carousel,
-      Slide,
-    },
-    setup() {
-      const config = {
+</template>
+
+<script>
+// If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide } from 'vue3-carousel'
+import axios from "axios"
+
+export default {
+  components: {
+    Carousel,
+    Slide,
+  },
+  data() {
+    return {
+      slideLength:1,
+      config: {
         dir: 'ttb',
-        wrapAround: i>3?true:false,
-        itemsToShow: i>3?3:i,
+        wrapAround: this.slideLength > 3 ? true : false,
+        itemsToShow: this.slideLength > 3 ? 3 : this.slideLength,
         gap: 5,
         height: 520,
-        autoplay:i>3?10000:0,
-      };
-  
-      return {
-        config
-      }
-    },
-  }
-  </script>
-  
+        autoplay: this.slideLength > 3 ? 10000 : 0,
+      },
+      meetingList: []
+    }
+  },
+  methods: {
+    async fetchMeetings() {
+      await axios.get('/api/v1/public/meeting-today', {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(response => {
+        if (response.data.success) {
+          this.meetingList = response.data.data
+          this.slideLength = response.data.data.lenght
+        }
+      }).catch(error => console.error(error))
+    }
+  },
+  async mounted() {
+    await this.fetchMeetings()
+  },
+
+}
+</script>

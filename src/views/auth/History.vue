@@ -18,32 +18,22 @@
                         </thead>
 
                         <tbody>
-                            <tr>
+                            <tr v-for="meeting in meetingHistoryList" :key="meeting._id">
                                 <td>
-                                    2024-12-26 <br />
-                                    15:00
-                                </td>
-                                <td>ចូលរួមប្រជុំពិភាក្សាបន្តលើសេចក្តីព្រាងច្បាប់ស្តីពី កិច្ចសន្យាផលិតកម្មកសិកម្ម <br />
-                                    ដឹកនាំដោយ ឯកឧត្តម <b>វ៉ា ពិសី</b> អនុរដ្ឋលេខាធិការ
+                                    {{ meeting.date }} <br />
+                                    {{ meeting.startTime.name }}
                                 </td>
                                 <td>
-                                    អគារ :តេជោសន្តិភាព <br />
-                                    ជាន់ :ទី១ <br />
-                                    បន្ទប់ :បូព្រឹក
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2024-12-26 <br />
-                                    15:00
-                                </td>
-                                <td>ចូលរួមប្រជុំពិភាក្សាបន្តលើសេចក្តីព្រាងច្បាប់ស្តីពី កិច្ចសន្យាផលិតកម្មកសិកម្ម <br />
-                                    ដឹកនាំដោយ ឯកឧត្តម <b>វ៉ា ពិសី</b> អនុរដ្ឋលេខាធិការ
+                                    {{ meeting.title }} <br />
+                                    ដឹកនាំដោយ
+                                    {{ meeting.management.title.name }}
+                                    <b>{{ meeting.management.fullName }}</b>
+                                    {{ meeting.management.position }}
                                 </td>
                                 <td>
-                                    អគារ :តេជោសន្តិភាព <br />
-                                    ជាន់ :ទី១ <br />
-                                    បន្ទប់ :បូព្រឹក
+                                    អគារ : {{ meeting.room.building.name }} <br />
+                                    ជាន់ : {{ meeting.room.floor.name }} <br />
+                                    បន្ទប់ : {{ meeting.room.name }}
                                 </td>
                             </tr>
                         </tbody>
@@ -52,8 +42,41 @@
             </div>
         </div>
     </div>
+    <!-- Loading Spinner component -->
+    <Loading :isLoading="actionLoading" />
 </template>
 
 <script>
+import Loading from "@/components/Loading.vue";
+import axios from "axios";
 
+export default {
+    data() {
+        return {
+            meetingHistoryList: []
+        }
+    },
+    components: {
+        Loading,
+    },
+    methods: {
+        async fetchMeetingHistory() {
+            await axios.get('/api/v1/meetings/histories/all', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }).then(response => {
+                if (response.data.success) {
+                    this.meetingHistoryList = response.data.data
+                }
+            }).catch(error => console.error(error))
+        },
+    },
+    mounted() {
+        this.actionLoading = true
+        this.fetchMeetingHistory()
+        this.actionLoading = false
+    }
+}
 </script>
