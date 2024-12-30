@@ -67,7 +67,7 @@ export default {
         async login() {
             try {
                 this.actionLoading = true;
-                await axios.post('/api/v1/auth/sign-in', {
+                await axios.post(`${process.env.VUE_APP_API}/v1/auth/sign-in`, {
                     username: this.username,
                     password: this.password
                 }, {

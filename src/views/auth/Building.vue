@@ -141,7 +141,7 @@ export default {
     methods: {
         async fetchBuildings() {
             await axios
-                .get("/api/v1/buildings", {
+                .get(`${process.env.VUE_APP_API}/v1/buildings`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -160,7 +160,7 @@ export default {
                 this.actionLoading = true;
                 await axios
                     .post(
-                        "/api/v1/buildings",
+                        `${process.env.VUE_APP_API}/v1/buildings`,
                         {
                             orderNumber: this.orderNumber,
                             name: this.name,
@@ -191,7 +191,7 @@ export default {
         async onEditBuilding(id) {
             this.actionLoading = true;
             await axios
-                .get(`/api/v1/buildings/${id}`, {
+                .get(`${process.env.VUE_APP_API}/v1/buildings/${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
@@ -212,7 +212,7 @@ export default {
                 this.actionLoading = true;
                 await axios
                     .put(
-                        `/api/v1/buildings/${this.updateDetails._id}`,
+                        `${process.env.VUE_APP_API}/v1/buildings/${this.updateDetails._id}`,
                         {
                             orderNumber: this.updateDetails.orderNumber,
                             name: this.updateDetails.name,
@@ -242,7 +242,7 @@ export default {
             if (confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
                 this.actionLoading = true;
                 axios
-                    .delete(`/api/v1/buildings/${id}`, {
+                    .delete(`${process.env.VUE_APP_API}/v1/buildings/${id}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
                         },

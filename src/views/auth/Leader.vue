@@ -181,7 +181,7 @@ export default {
     methods: {
         async fetchManagements() {
             try {
-                await axios.get(`/api/v1/managements?pages=${this.page}`, {
+                await axios.get(`${process.env.VUE_APP_API}/v1/managements?pages=${this.page}`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -198,7 +198,7 @@ export default {
         },
         async fetchTitles() {
             try {
-                await axios.get('/api/v1/enums/titles', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/enums/titles`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -212,7 +212,7 @@ export default {
         },
         async fetchGenders() {
             try {
-                await axios.get('/api/v1/enums/genders', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/enums/genders`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -227,7 +227,7 @@ export default {
         async onCreateManagement() {
             try {
                 this.actionLoading = true;
-                await axios.post("/api/v1/managements", {
+                await axios.post(`${process.env.VUE_APP_API}/v1/managements`, {
                     ...this.createManagementDetail
                 }, {
                     headers: {
@@ -251,7 +251,7 @@ export default {
             if (confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
                 this.actionLoading = true;
                 axios
-                    .delete(`/api/v1/managements/${id}`, {
+                    .delete(`${process.env.VUE_APP_API}/v1/managements/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -274,7 +274,7 @@ export default {
             try {
                 this.actionLoading = true
                 await axios
-                    .get(`/api/v1/managements/${id}`, {
+                    .get(`${process.env.VUE_APP_API}/v1/managements/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -301,7 +301,7 @@ export default {
             try {
                 this.actionLoading = true
                 await axios
-                    .put(`/api/v1/managements/${this.updateManagementDetail.id}`,{
+                    .put(`${process.env.VUE_APP_API}/v1/managements/${this.updateManagementDetail.id}`,{
                         ...this.updateManagementDetail
                     }, {
                         headers: {

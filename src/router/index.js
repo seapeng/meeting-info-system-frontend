@@ -68,7 +68,7 @@ const checkAuthentication = async () => {
     //   },
     // });
     const authed = await axios.get(
-      "/api/v1/auth/check-auth",
+      `${process.env.VUE_APP_API}/v1/auth/check-auth`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return await authed.data.success;

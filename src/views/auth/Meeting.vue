@@ -244,7 +244,7 @@ export default {
     },
     methods: {
         async fetchManagements() {
-            await axios.get('/api/v1/managements', {
+            await axios.get(`${process.env.VUE_APP_API}/v1/managements`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -256,7 +256,7 @@ export default {
             }).catch(error => console.error(error))
         },
         async fetchRooms() {
-            await axios.get('/api/v1/rooms', {
+            await axios.get(`${process.env.VUE_APP_API}/v1/rooms`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -268,7 +268,7 @@ export default {
             }).catch(error => console.error(error))
         },
         async fetchTimes() {
-            await axios.get('/api/v1/enums/times', {
+            await axios.get(`${process.env.VUE_APP_API}/v1/enums/times`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -281,7 +281,7 @@ export default {
             }).catch(error => console.error(error))
         },
         async fetchStatuses() {
-            await axios.get("/api/v1/enums/statuses", {
+            await axios.get(`${process.env.VUE_APP_API}/v1/enums/statuses`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -294,7 +294,7 @@ export default {
         },
         async fetchMeetings() {
             try {
-                await axios.get("/api/v1/meetings", {
+                await axios.get(`${process.env.VUE_APP_API}/v1/meetings`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -312,7 +312,7 @@ export default {
             try {
                 this.actionLoading = true
                 await axios
-                    .post('/api/v1/meetings', {
+                    .post(`${process.env.VUE_APP_API}/v1/meetings`, {
                         ...this.createMeetingDetail
                     }, {
                         headers: {
@@ -343,7 +343,7 @@ export default {
             if (confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
                 this.actionLoading = true;
                 await axios
-                    .delete(`/api/v1/meetings/${id}`, {
+                    .delete(`${process.env.VUE_APP_API}/v1/meetings/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -365,7 +365,7 @@ export default {
         async onEditMeeting(id) {
             try {
                 this.actionLoading = true
-                await axios.get(`/api/v1/meetings/${id}`, {
+                await axios.get(`${process.env.VUE_APP_API}/v1/meetings/${id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -393,7 +393,7 @@ export default {
         async submitEditMeeting() {
             try {
                 this.actionLoading = true
-                await axios.put(`/api/v1/meetings/${this.editMeetingDetail.id}`, {
+                await axios.put(`${process.env.VUE_APP_API}/v1/meetings/${this.editMeetingDetail.id}`, {
                     ...this.editMeetingDetail
                 }, {
                     headers: {

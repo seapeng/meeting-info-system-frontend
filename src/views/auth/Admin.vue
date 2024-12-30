@@ -178,7 +178,7 @@ export default {
     methods: {
         async fetchRoles() {
             try {
-                await axios.get('/api//v1/enums/roles', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/enums/roles`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -194,7 +194,7 @@ export default {
         },
         async fetchUsers() {
             try {
-                await axios.get('/api/v1/users', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/users`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -212,7 +212,7 @@ export default {
             try {
                 this.actionLoading = true
                 await axios
-                    .post('/api/v1/users', {
+                    .post(`${process.env.VUE_APP_API}/v1/users`, {
                         ...this.createUserDetail
                     }, {
                         headers: {
@@ -235,7 +235,7 @@ export default {
         async onDeleteUser(id) {
             if (confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
                 this.actionLoading = true
-                await axios.delete(`/api/v1/users/${id}`, {
+                await axios.delete(`${process.env.VUE_APP_API}/v1/users/${id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -252,7 +252,7 @@ export default {
             try {
                 this.actionLoading = true
                 await axios
-                    .get(`/api/v1/users/${id}`, {
+                    .get(`${process.env.VUE_APP_API}/v1/users/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -276,7 +276,7 @@ export default {
         async submitEditUser() {
             try {
                 this.actionLoading = true
-                await axios.put(`/api/v1/users/${this.editUserDetail.id}`, {
+                await axios.put(`${process.env.VUE_APP_API}/v1/users/${this.editUserDetail.id}`, {
                     ...this.editUserDetail
                 }, {
                     headers: {

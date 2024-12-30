@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     async fetchMeetings() {
-      await axios.get('/api/v1/public/meeting-today', {
+      await axios.get(`${process.env.VUE_APP_API}/v1/public/meeting-today`, {
         headers: {
           "Content-Type": "application/json",
         },

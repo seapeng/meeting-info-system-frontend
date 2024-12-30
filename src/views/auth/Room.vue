@@ -168,7 +168,7 @@ export default {
     methods: {
         async fetchRooms() {
             try {
-                await axios.get('/api/v1/rooms', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/rooms`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -186,7 +186,7 @@ export default {
         },
         async fetchFloors() {
             try {
-                await axios.get('/api/v1/enums/floors', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/enums/floors`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -204,7 +204,7 @@ export default {
         },
         async fetchBuildings() {
             try {
-                await axios.get('/api/v1/buildings', {
+                await axios.get(`${process.env.VUE_APP_API}/v1/buildings`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -223,7 +223,7 @@ export default {
         async submitCreateRoom() {
             try {
                 this.actionLoading = true
-                await axios.post('/api/v1/rooms', {
+                await axios.post(`${process.env.VUE_APP_API}/v1/rooms`, {
                     ...this.createRoomDetail
                 }, {
                     headers: {
@@ -246,7 +246,7 @@ export default {
             if (confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
                 this.actionLoading = true;
                 await axios
-                    .delete(`/api/v1/rooms/${id}`, {
+                    .delete(`${process.env.VUE_APP_API}/v1/rooms/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -269,7 +269,7 @@ export default {
             try {
                 this.actionLoading = true
                 await axios
-                    .get(`/api/v1/rooms/${id}`, {
+                    .get(`${process.env.VUE_APP_API}/v1/rooms/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -294,7 +294,7 @@ export default {
         async submitEditRoom() {
             try {
                 this.actionLoading = true
-                await axios.put(`/api/v1/rooms/${this.editRoomDetail.id}`, {
+                await axios.put(`${process.env.VUE_APP_API}/v1/rooms/${this.editRoomDetail.id}`, {
                     ...this.editRoomDetail
                 }, {
                     headers: {

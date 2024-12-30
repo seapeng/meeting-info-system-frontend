@@ -1,0 +1,11 @@
+services:
+  meeting-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: meeting-frontend
+    environment:
+      - VUE_APP_API=http://localhost:4000
+      - VUE_APP_TITLE=Meeting System
+    ports:
+      - 3000:3000

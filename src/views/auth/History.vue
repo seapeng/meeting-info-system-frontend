@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         async fetchMeetingHistory() {
-            await axios.get('/api/v1/meetings/histories/all', {
+            await axios.get(`${process.env.VUE_APP_API}/v1/meetings/histories/all`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,

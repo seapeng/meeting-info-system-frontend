@@ -60,7 +60,7 @@ export default {
    },
    methods: {
       async fetchBuildings() {
-         await axios.get("/api/v1/buildings", {
+         await axios.get(`${process.env.VUE_APP_API}/v1/buildings`, {
             headers: {
                "Content-Type": "application/json",
                Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -73,7 +73,7 @@ export default {
          })
       },
       async fetchRooms() {
-         await axios.get("/api/v1/Rooms", {
+         await axios.get(`${process.env.VUE_APP_API}/v1/Rooms`, {
             headers: {
                "Content-Type": "application/json",
                Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -86,7 +86,7 @@ export default {
          })
       },
       async fetchUsers() {
-         await axios.get("/api/v1/users", {
+         await axios.get(`${process.env.VUE_APP_API}/v1/users`, {
             headers: {
                "Content-Type": "application/json",
                Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -99,7 +99,7 @@ export default {
          })
       },
       async fetchTodayMeeting() {
-         await axios.get("/api/v1/public/meeting-today", {
+         await axios.get(`${process.env.VUE_APP_API}/v1/public/meeting-today`, {
             headers: {
                "Content-Type": "application/json",
                Authorization: `Bearer ${localStorage.getItem("token")}`,
