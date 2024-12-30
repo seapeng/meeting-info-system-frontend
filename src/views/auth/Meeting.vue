@@ -25,40 +25,32 @@
                         </thead>
 
                         <tbody>
-                            <tr>
+                            <tr v-for="meeting in meetingList" :key="meeting._id">
                                 <td>
-                                    2024-12-26 <br />
-                                    15:00
-                                </td>
-                                <td>ចូលរួមប្រជុំពិភាក្សាបន្តលើសេចក្តីព្រាងច្បាប់ស្តីពី កិច្ចសន្យាផលិតកម្មកសិកម្ម <br />
-                                    ដឹកនាំដោយ ឯកឧត្តម <b>វ៉ា ពិសី</b> អនុរដ្ឋលេខាធិការ
+                                    {{ meeting.date }} <br />
+                                    {{ meeting.startTime.name }}
                                 </td>
                                 <td>
-                                    អគារ :តេជោសន្តិភាព <br />
-                                    ជាន់ :ទី១ <br />
-                                    បន្ទប់ :បូព្រឹក
+                                    {{ meeting.title }} <br />
+                                    ដឹកនាំដោយ
+                                    {{ meeting.management.title.name }}
+                                    <b>{{ meeting.management.fullName }}</b>
+                                    {{ meeting.management.position }}
                                 </td>
                                 <td>
-                                    <i class="bi bi-pencil-square"></i> |
-                                    <i class="bi bi-trash-fill"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    2024-12-26 <br />
-                                    15:00
-                                </td>
-                                <td>ចូលរួមប្រជុំពិភាក្សាបន្តលើសេចក្តីព្រាងច្បាប់ស្តីពី កិច្ចសន្យាផលិតកម្មកសិកម្ម <br />
-                                    ដឹកនាំដោយ ឯកឧត្តម <b>វ៉ា ពិសី</b> អនុរដ្ឋលេខាធិការ
+                                    អគារ : {{ meeting.room.building.name }} <br />
+                                    ជាន់ : {{ meeting.room.floor.name }} <br />
+                                    បន្ទប់ : {{ meeting.room.name }}
                                 </td>
                                 <td>
-                                    អគារ :តេជោសន្តិភាព <br />
-                                    ជាន់ :ទី១ <br />
-                                    បន្ទប់ :បូព្រឹក
-                                </td>
-                                <td>
-                                    <i class="bi bi-pencil-square"></i> |
-                                    <i class="bi bi-trash-fill"></i>
+                                    <a href="#" data-toggle="modal" data-target="#EditModal"
+                                        @click="onEditMeeting(meeting._id)">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    |
+                                    <a href="#" class="text-danger" @click="onDeleteMeeting(meeting._id)">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -73,44 +65,70 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <form method="post" action="">
-
+                    <form method="post" @submit.prevent="submitCreateMeeting">
                         <div class="form-group">
-                            <label for="sort">កាលបរិច្ឆេទ :</label>
-                            <input class="form-control" type="date" name="date" required>
+                            <label for="date">កាលបរិច្ឆេទ :</label>
+                            <input class="form-control" type="date" v-model="createMeetingDetail.date" required>
                         </div>
                         <div class="form-group">
-                            <label for="name">ខ្លឺមសារ :</label>
-                            <input class="form-control" name="name" type="text" required>
+                            <label for="title">ខ្លឺមសារ :</label>
+                            <input class="form-control" type="text" v-model="createMeetingDetail.title" required>
                         </div>
                         <div class="form-group">
                             <label for="name">ដឹកនាំដោយ :</label>
-                            <select name="manager" class="form-control">
+                            <select class="form-control" v-model="createMeetingDetail.management">
                                 <optgroup label="ដឹកនាំដោយ">
-                                    <option value="manager_id">ឯកឧត្តម ឌិត ទីណា រដ្ឋមន្ត្រីក្រសួងកសិកម្ម រុក្ខាប្រមាញ់
-                                        និងនេសាទ</option>
-                                    <option value="manager_id">ឯកឧត្តម អ៉ឹម ស៊ីថុល រដ្ឋលេខាធិការប្រចាំការ</option>
+                                    <option v-for="management in managementList" :key="management._id"
+                                        :value="management._id">
+                                        {{ management.title.name }} {{ management.fullName }} {{ management.position }}
+                                    </option>
                                 </optgroup>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="start_time">ម៉ោងប្រជុំ :</label>
-                            <input class="time-control" type="time" name="start_time" required>
+                            <label for="startTime">ម៉ោងចាប់ផ្តើម :</label>
+                            <select class="form-control" v-model="createMeetingDetail.startTime">
+                                <optgroup label="ម៉ោងចាប់ផ្តើម">
 
-                            <label for="end_time">ដល់ </label>
-                            <input class="time-control" type="time" name="end_time" required>
+                                    <option v-for="sTime in startTime" :key="sTime._id" :value="sTime._id">
+                                        {{ sTime.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="name">បន្ទប់ប្រជុំ :</label>
-                            <select name="room" class="form-control">
-                                <optgroup label="ដឹកនាំដោយ">
-                                    <option value="room_id">សាលពិដោរ</option>
-                                    <option value="room_id">លឿងរាជ</option>
+                            <label for="endTime">ម៉ោងបញ្ចប់ </label>
+                            <select class="form-control" v-model="createMeetingDetail.endTime">
+                                <optgroup label="ម៉ោងចាប់បញ្ចប់">
+                                    <option v-for="eTime in endTime" :key="eTime._id" :value="eTime._id">
+                                        {{ eTime.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">បន្ទប់ប្រជុំ > ជាន់ > អគារ :</label>
+                            <select class="form-control" v-model="createMeetingDetail.room">
+                                <optgroup label="បន្ទប់ប្រជុំ">
+                                    <option v-for="room in roomList" :key="room._id" :value="room._id">
+                                        {{ room.name }} > {{ room.floor.name }} > {{ room.building.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">ស្ថានភាពប្រជុំ :</label>
+                            <select class="form-control" v-model="createMeetingDetail.status">
+                                <optgroup label="ស្ថានភាពប្រជុំ">
+                                    <option v-for="status in statusList" :key="status._id" :value="status._id">
+                                        {{ status.name }}
+                                    </option>
                                 </optgroup>
                             </select>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">បដិសេធ</button>
+                            <button type="button" class="btn btn-outline-danger" ref="closeCreateModal"
+                                data-dismiss="modal">បដិសេធ</button>
                             <button type="submit" name="save" class="btn btn-primary">រក្សាទុក</button>
                         </div>
                     </form>
@@ -120,8 +138,295 @@
         </div>
     </div>
 
+    <!-- Edit Modal-->
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="post" @submit.prevent="submitEditMeeting">
+                        <div class="form-group">
+                            <label for="date">កាលបរិច្ឆេទ :</label>
+                            <input class="form-control" type="date" v-model="editMeetingDetail.date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">ខ្លឺមសារ :</label>
+                            <input class="form-control" type="text" v-model="editMeetingDetail.title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">ដឹកនាំដោយ :</label>
+                            <select class="form-control" v-model="editMeetingDetail.management">
+                                <optgroup label="ដឹកនាំដោយ">
+                                    <option v-for="management in managementList" :key="management._id"
+                                        :value="management._id">
+                                        {{ management.title.name }} {{ management.fullName }} {{ management.position }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">ម៉ោងចាប់ផ្តើម :</label>
+                            <select class="form-control" v-model="editMeetingDetail.startTime">
+                                <optgroup label="ម៉ោងចាប់ផ្តើម">
+
+                                    <option v-for="sTime in startTime" :key="sTime._id" :value="sTime._id">
+                                        {{ sTime.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">ម៉ោងបញ្ចប់ </label>
+                            <select class="form-control" v-model="editMeetingDetail.endTime">
+                                <optgroup label="ម៉ោងចាប់បញ្ចប់">
+                                    <option v-for="eTime in endTime" :key="eTime._id" :value="eTime._id">
+                                        {{ eTime.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">បន្ទប់ប្រជុំ > ជាន់ > អគារ :</label>
+                            <select class="form-control" v-model="editMeetingDetail.room">
+                                <optgroup label="បន្ទប់ប្រជុំ">
+                                    <option v-for="room in roomList" :key="room._id" :value="room._id">
+                                        {{ room.name }} > {{ room.floor.name }} > {{ room.building.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">ស្ថានភាពប្រជុំ :</label>
+                            <select class="form-control" v-model="editMeetingDetail.status">
+                                <optgroup label="ស្ថានភាពប្រជុំ">
+                                    <option v-for="status in statusList" :key="status._id" :value="status._id">
+                                        {{ status.name }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" ref="closeEditModal"
+                                data-dismiss="modal">បដិសេធ</button>
+                            <button type="submit" name="save" class="btn btn-primary">រក្សាទុក</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Loading Spinner component -->
+    <Loading :isLoading="actionLoading" />
 </template>
 
 <script>
-
+import Loading from "@/components/Loading.vue";
+import axios from "axios";
+import moment from "moment";
+export default {
+    data() {
+        return {
+            currentDate: moment(new Date()).format("YYYY-MM-DD"),
+            actionLoading: false,
+            createMeetingDetail: {},
+            editMeetingDetail: {},
+            meetingList: [],
+            managementList: [],
+            roomList: [],
+            startTimeList: [],
+            endTimeList: [],
+            statusList: []
+        }
+    },
+    components: {
+        Loading
+    },
+    methods: {
+        async fetchManagements() {
+            await axios.get('/api/v1/managements', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }).then(response => {
+                if (response.data.success) {
+                    this.managementList = response.data.data
+                }
+            }).catch(error => console.error(error))
+        },
+        async fetchRooms() {
+            await axios.get('/api/v1/rooms', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }).then(response => {
+                if (response.data.success) {
+                    this.roomList = response.data.data
+                }
+            }).catch(error => console.error(error))
+        },
+        async fetchTimes() {
+            await axios.get('/api/v1/enums/times', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }).then(response => {
+                if (response.data.success) {
+                    this.startTime = response.data.data
+                    this.endTime = response.data.data
+                }
+            }).catch(error => console.error(error))
+        },
+        async fetchStatuses() {
+            await axios.get("/api/v1/enums/statuses", {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }).then(response => {
+                if (response.data.success) {
+                    this.statusList = response.data.data
+                }
+            }).catch(error => console.error(error))
+        },
+        async fetchMeetings() {
+            try {
+                await axios.get("/api/v1/meetings", {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }).then(response => {
+                    if (response.data.success) {
+                        this.meetingList = response.data.data
+                    }
+                }).catch(error => console.error(error))
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        async submitCreateMeeting() {
+            try {
+                this.actionLoading = true
+                await axios
+                    .post('/api/v1/meetings', {
+                        ...this.createMeetingDetail
+                    }, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        },
+                    })
+                    .then(response => {
+                        if (response.data.success) {
+                            this.createMeetingDetail.startTime = this.startTime[2]._id
+                            this.createMeetingDetail.endTime = this.endTime[4]._id
+                            this.createMeetingDetail.management = this.managementList[0]._id
+                            this.createMeetingDetail.room = this.roomList[0]._id
+                            this.createMeetingDetail.status = this.statusList[0]._id
+                            this.createMeetingDetail.date = this.currentDate
+                            this.createMeetingDetail.title = ""
+                            this.fetchMeetings()
+                            this.$refs.closeCreateModal.click();
+                        }
+                    })
+                    .catch(error => console.error(error))
+                    .finally(() => this.actionLoading = false)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async onDeleteMeeting(id) {
+            if (confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
+                this.actionLoading = true;
+                await axios
+                    .delete(`/api/v1/meetings/${id}`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        },
+                    })
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.fetchMeetings()
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        this.actionLoading = false;
+                    });
+            }
+        },
+        async onEditMeeting(id) {
+            try {
+                this.actionLoading = true
+                await axios.get(`/api/v1/meetings/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                })
+                    .then(response => {
+                        if (response.data.success) {
+                            const dt = response.data.data;
+                            this.editMeetingDetail.id = dt._id
+                            this.editMeetingDetail.startTime = dt.startTime._id
+                            this.editMeetingDetail.endTime = dt.endTime._id
+                            this.editMeetingDetail.management = dt.management._id
+                            this.editMeetingDetail.room = dt.room._id
+                            this.editMeetingDetail.status = dt.status._id
+                            this.editMeetingDetail.date = dt.date
+                            this.editMeetingDetail.title = dt.title
+                        }
+                    })
+                    .catch(error => console.error(error))
+                    .finally(() => this.actionLoading = false)
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        async submitEditMeeting() {
+            try {
+                this.actionLoading = true
+                await axios.put(`/api/v1/meetings/${this.editMeetingDetail.id}`, {
+                    ...this.editMeetingDetail
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }).then(response => {
+                    if (response.data.success) {
+                        this.editMeetingDetail = {}
+                        this.fetchMeetings()
+                        this.$refs.closeEditModal.click();
+                    }
+                }).catch(error => console.error(error))
+                this.actionLoading = false
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    },
+    async mounted() {
+        this.actionLoading = true
+        await this.fetchManagements()
+        await this.fetchRooms()
+        await this.fetchTimes()
+        await this.fetchStatuses()
+        await this.fetchMeetings()
+        this.createMeetingDetail.startTime = this.startTime[2]._id
+        this.createMeetingDetail.endTime = this.endTime[4]._id
+        this.createMeetingDetail.management = this.managementList[0]._id
+        this.createMeetingDetail.room = this.roomList[0]._id
+        this.createMeetingDetail.status = this.statusList[0]._id
+        this.createMeetingDetail.date = this.currentDate
+        this.actionLoading = false
+    },
+}
 </script>

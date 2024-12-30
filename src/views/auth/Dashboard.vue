@@ -36,21 +36,89 @@
       <!-- Content Row -->
 
    </div>
-
+   <!-- Loading Spinner component -->
+   <Loading :isLoading="actionLoading" />
 </template>
 
 <script>
-
+import Loading from "@/components/Loading.vue";
+import axios from "axios";
 export default {
    data() {
       return {
+         actionLoading: false,
          infos: [
-            { icon: 'fas fa-building fa-2x text-gray-300', name: 'ចំនួនអារគារ', number: 6 },
-            { icon: 'fas fa-server fa-2x text-gray-300', name: 'ចំនួនបន្ទប់', number: 10 },
-            { icon: 'fas fa-user fa-2x text-gray-300', name: 'ចំនួនគណនី', number: 3 },
-            { icon: 'fas fa-users fa-2x text-gray-300', name: 'ចំនួនប្រជុំថ្ងៃនេះ', number: 5 },
+            { icon: 'fas fa-building fa-2x text-gray-300', name: 'ចំនួនអារគារ', number: 0 },
+            { icon: 'fas fa-server fa-2x text-gray-300', name: 'ចំនួនបន្ទប់', number: 0 },
+            { icon: 'fas fa-user fa-2x text-gray-300', name: 'ចំនួនគណនី', number: 0 },
+            { icon: 'fas fa-users fa-2x text-gray-300', name: 'ចំនួនប្រជុំថ្ងៃនេះ', number: 0 },
          ]
       }
    },
+   components: {
+      Loading
+   },
+   methods: {
+      async fetchBuildings() {
+         await axios.get("/api/v1/buildings", {
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+         }).then(response => {
+            if (response.data.success) {
+               const res = response.data.data
+               this.infos[0].number = res.length
+            }
+         })
+      },
+      async fetchRooms() {
+         await axios.get("/api/v1/Rooms", {
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+         }).then(response => {
+            if (response.data.success) {
+               const res = response.data.data
+               this.infos[1].number = res.length
+            }
+         })
+      },
+      async fetchUsers() {
+         await axios.get("/api/v1/users", {
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+         }).then(response => {
+            if (response.data.success) {
+               const res = response.data.data
+               this.infos[2].number = res.length
+            }
+         })
+      },
+      async fetchTodayMeeting() {
+         await axios.get("/api/v1/public/meeting-today", {
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+         }).then(response => {
+            if (response.data.success) {
+               const res = response.data.data
+               this.infos[3].number = res.length
+            }
+         })
+      },
+   },
+   async mounted() {
+      this.actionLoading = true
+      await this.fetchBuildings()
+      await this.fetchRooms()
+      await this.fetchUsers()
+      await this.fetchTodayMeeting()
+      this.actionLoading = false
+   }
 };
 </script>
