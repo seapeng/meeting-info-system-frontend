@@ -420,12 +420,12 @@ export default {
         await this.fetchTimes()
         await this.fetchStatuses()
         await this.fetchMeetings()
-        this.createMeetingDetail.startTime = this.startTime[2]._id
-        this.createMeetingDetail.endTime = this.endTime[4]._id
-        this.createMeetingDetail.management = this.managementList[0]._id
-        this.createMeetingDetail.room = this.roomList[0]._id
-        this.createMeetingDetail.status = this.statusList[0]._id
-        this.createMeetingDetail.date = this.currentDate
+        // this.createMeetingDetail.startTime = this.startTime[0]._id | ""
+        // this.createMeetingDetail.endTime = this.endTime[1]._id | ""
+        // this.createMeetingDetail.management = this.managementList[0]._id | ""
+        // this.createMeetingDetail.room = this.roomList[0]._id | ""
+        // this.createMeetingDetail.status = this.statusList[0]._id | ""
+        // this.createMeetingDetail.date = this.currentDate | ""
         this.actionLoading = false
     },
 }
