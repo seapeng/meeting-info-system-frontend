@@ -1,8 +1,8 @@
 FROM node:18.20.2-slim
 ENV TZ="Asia/Bangkok"
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json jsconfig.json ./
 RUN npm install
 COPY . .
-EXPOSE 3000
+EXPOSE 8080
 CMD ["npm","run","serve" ]
