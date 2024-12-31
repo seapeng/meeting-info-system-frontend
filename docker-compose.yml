@@ -5,7 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: meeting-frontend
     volumes:
-      - ./:/app
+      - .env:/app/.env
+      - ./src:/app/src
     environment:
       - VUE_APP_API=https://meetingapi.daovitou.net
       - VUE_APP_TITLE=Meeting System
