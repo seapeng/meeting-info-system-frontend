@@ -7,5 +7,5 @@ services:
     environment:
       - VUE_APP_API=https://meetingapi.daovitou.net
       - VUE_APP_TITLE=Meeting System
-    ports:
-      - 8080:8080
+    # ports:
+    #   - 8080:8080
