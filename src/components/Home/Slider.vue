@@ -13,14 +13,14 @@
         <Slide v-for="slide in meetingList" :key="slide" style="height:auto">
           <div class="container-fluid row data-row text-start">
             <div class="col-lg-2 col-md-2">
-              <div>{{ slide.date }}</div>
+              <div>{{ fullDate(slide.date) }}</div>
               ម៉ោង {{ slide.startTime.name }}
             </div>
             <div class="col-6">
               <p>{{ slide.title }}</p>
               <div>
                 ដឹកនាំដោយ៖ {{ slide.management.title.name }}
-                <span class="font-muol color-gold">{{ slide.management.fullName }}</span>
+                <span class="KhMoulLight color-gold">{{ slide.management.fullName }}</span>
                 {{ slide.management.position }}
               </div>
             </div>
@@ -46,6 +46,7 @@
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
 import axios from "axios"
+import moment from 'moment';
 
 export default {
   components: {
@@ -54,7 +55,7 @@ export default {
   },
   data() {
     return {
-      slideLength:1,
+      slideLength: 1,
       config: {
         dir: 'ttb',
         wrapAround: this.slideLength > 3 ? true : false,
@@ -78,6 +79,10 @@ export default {
           this.slideLength = response.data.data.lenght
         }
       }).catch(error => console.error(error))
+    },
+    fullDate(date) {
+      const fullDate = moment(new Date(date)).format("DD-MMMM-YYYY").toString().split("-")
+      return this.$t(fullDate[0])+' '+this.$t(fullDate[1])+' '+this.$t(fullDate[2]);
     }
   },
   async mounted() {

@@ -10,7 +10,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">ប្រព័ន្ធគ្រប់គ្រងបន្ទប់ប្រជុំ</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">ប្រព័ន្ធគ្រប់គ្រងព័ត៌មានកិច្ចប្រជុំ</h1>
                                     </div>
                                     <form class="user" @submit.prevent="login">
                                         <div class="form-group">

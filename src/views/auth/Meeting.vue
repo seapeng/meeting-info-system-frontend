@@ -17,13 +17,12 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>កាលបរិច្ឆេទ</th>
+                                <th width="120">កាលបរិច្ឆេទ</th>
                                 <th>ខ្លឺមសារ</th>
-                                <th>ទីកន្លែង</th>
-                                <th>ផ្សេងៗ</th>
+                                <th width="210">ទីកន្លែង</th>
+                                <th width="100">ផ្សេងៗ</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             <tr v-for="meeting in meetingList" :key="meeting._id">
                                 <td>

@@ -2,9 +2,20 @@
     font-family:'digital-timer';
     src: url('@/assets/fonts/digital/digital-7.ttf');
 }
+@font-face{
+    font-family:'KhBattambong';
+    src: url('@/assets/fonts/KHMEROSBATTAMBANG.TTF');
+}
+@font-face{
+    font-family:'KhMoulLight';
+    src: url('@/assets/fonts/KHMEROSMUOLLIGHT.TTF');
+}
 body{
     background-color: #14532d;
-    font-family: "Battambang", system-ui;
+    font-family: "KhBattambong", system-ui;
+}
+.KhMoulLight{
+    font-family: "KhMoulLight", system-ui;
 }
 .header{
     color: #fff;
