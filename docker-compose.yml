@@ -7,6 +7,7 @@ services:
     volumes:
       - .env:/app/.env
       - ./src:/app/src
+      - ./public:/app/public
     environment:
       - VUE_APP_API=https://meetingapi.daovitou.net
       - VUE_APP_TITLE=Meeting System
