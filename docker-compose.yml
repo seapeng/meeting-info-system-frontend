@@ -14,3 +14,9 @@ services:
       - VUE_APP_TITLE=Meeting System
     ports:
       - 8080:8080
+    networks:
+      - production-network
+networks:
+  production-network:
+    name: production-network
+    external: true
