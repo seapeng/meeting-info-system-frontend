@@ -14,7 +14,7 @@
         itemsToShow: meetingList.length,
         gap: 5,
         height: 520,
-        autoplay: 2000,
+        autoplay: 10000,
       }" v-if="meetingList.length < 4">
         <Slide v-for="(slide) in meetingList" :key="slide._id" style="height:auto">
           <div class="container-fluid text-start row data-row">
@@ -43,8 +43,8 @@
         wrapAround: true,
         itemsToShow: 3,
         gap: 5,
-        height: 600,
-        autoplay: 2000,
+        height: 520,
+        autoplay: 10000,
       }" v-else>
         <Slide v-for="(slide) in meetingList" :key="slide._id" style="height:auto">
           <div class="container-fluid text-start row data-row">
