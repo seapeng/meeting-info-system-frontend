@@ -5,7 +5,6 @@
                 <div class="float-left">
                     <h6 class="m-0 font-weight-bold text-primary">បន្ទប់ប្រជុំ</h6>
                 </div>
-
                 <div class="float-right margin-top-2">
                     <a href="" data-toggle="modal" data-target="#CreateModal">
                         <i class="fas fa-fw fa-plus-circle"></i> បង្កើតថ្មី
@@ -30,7 +29,7 @@
                                 <td>{{ room.name }}</td>
                                 <td>
                                     អគារ៖ {{ room.building.name }} <br />
-                                    ជាន់៖ {{ room.floor.name }}
+                                    ជាន់៖ {{ room.floor }}
                                 </td>
                                 <td>
                                     <a href="#" data-toggle="modal" data-target="#EditModal"
@@ -77,13 +76,8 @@
                         </div>
                         <div class="form-group">
                             <label for="name">ជាន់ :</label>
-                            <select class="form-control" v-model="createRoomDetail.floor">
-                                <optgroup label="ជាន់">
-                                    <option v-for="(floor) in floorList" :key="floor._id" :value="floor._id">{{
-                                        floor.name
-                                    }}</option>
-                                </optgroup>
-                            </select>
+                            <input type="text" class="form-control" v-model="createRoomDetail.floor" placeholder="ជាន់នៃបន្ទប់">
+                           
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ref="closeCreateModal"
@@ -125,13 +119,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">ជាន់ :</label>
-                            <select class="form-control" v-model="editRoomDetail.floor">
-                                <optgroup label="ជាន់">
-                                    <option v-for="(floor) in floorList" :key="floor._id" :value="floor._id">{{
-                                        floor.name
-                                    }}</option>
-                                </optgroup>
-                            </select>
+                            <input type="text" class="form-control" v-model="editRoomDetail.floor" placeholder="ជាន់នៃបន្ទប់">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ref="closeEditModal"
@@ -158,7 +146,6 @@ export default {
             roomList: [],
             createRoomDetail: {},
             editRoomDetail: {},
-            floorList: [],
             buildingList: []
         }
     },
@@ -184,24 +171,7 @@ export default {
                 console.error(error)
             }
         },
-        async fetchFloors() {
-            try {
-                await axios.get(`${process.env.VUE_APP_API}/v1/enums/floors`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    }
-                })
-                    .then(response => {
-                        if (response.data.success) {
-                            this.floorList = response.data.data
-                        }
-                    })
-                    .catch(error => console.error(error))
-            } catch (error) {
-                console.error(error)
-            }
-        },
+        
         async fetchBuildings() {
             try {
                 await axios.get(`${process.env.VUE_APP_API}/v1/buildings`, {
@@ -281,7 +251,7 @@ export default {
                             this.editRoomDetail.id = res._id
                             this.editRoomDetail.name = res.name
                             this.editRoomDetail.building = res.building._id
-                            this.editRoomDetail.floor = res.floor._id
+                            this.editRoomDetail.floor = res.floor
                             this.editRoomDetail.orderNumber = res.orderNumber
                         }
                     })
@@ -316,7 +286,6 @@ export default {
     },
     mounted() {
         this.actionLoading = true;
-        this.fetchFloors()
         this.fetchBuildings()
         this.fetchRooms()
         this.actionLoading = false;

@@ -12,23 +12,22 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">ប្រព័ន្ធគ្រប់គ្រងព័ត៌មានកិច្ចប្រជុំ</h1>
                                     </div>
-                                    <form class="user" @submit.prevent="login">
+                                    <Form class="user" @submit="login">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                aria-describedby="emailHelp" placeholder="Username" v-model="username">
+                                            <Field type="text" name="username" class="form-control form-control-user"
+                                                aria-describedby="emailHelp" placeholder="Username" v-model="username"/>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                placeholder="Password" v-model="password" autocomplete="off">
+                                            <Field type="password" name="password" class="form-control form-control-user"
+                                                placeholder="Password" v-model="password" autocomplete="off" />
                                         </div>
-                                        <span>{{ errors }}</span>
-                                        <div>
-
+                                        <div class="form-group">
+                                            <span class="text-danger text-capitalize">{{ errors }}</span>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
-                                    </form>
+                                    </Form>
                                     <hr>
                                     <!-- <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
@@ -50,7 +49,7 @@
 <script>
 import axios from 'axios';
 import Loading from '@/components/Loading.vue';
-
+import { Form, Field } from 'vee-validate';
 export default {
     data() {
         return {
@@ -60,16 +59,19 @@ export default {
             actionLoading: false,
         }
     },
-    components:{
+    components: {
         Loading,
+        Form, 
+        Field,
     },
     methods: {
-        async login() {
+        async login(values) {
+            console.log(values);
             try {
                 this.actionLoading = true;
                 await axios.post(`${process.env.VUE_APP_API}/v1/auth/sign-in`, {
-                    username: this.username,
-                    password: this.password
+                    username: values.username,
+                    password: values.password
                 }, {
                     headers: {
                         'Content-Type': 'application/json'
@@ -83,9 +85,13 @@ export default {
                         localStorage.removeItem('token');
                         localStorage.removeItem('user');
                     }
-                }).finally(() => this.actionLoading = false);
+                }).catch((error) => {
+                    console.log(error.response.data.error[0].message)
+                    this.errors = error.response.data.error[0].message;
+                })
+                    .finally(() => this.actionLoading = false);
             } catch (err) {
-                this.errors = "invlaide username or password";
+                this.errors = "invalid username or password";
             }
         }
     }

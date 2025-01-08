@@ -13,7 +13,6 @@ import Meeting from "@/views/auth/Meeting.vue";
 import History from "@/views/auth/History.vue";
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import axios from "axios";
-
 // Define routes
 const routes = [
   { path: "/", component: Home },
@@ -57,16 +56,12 @@ router.beforeEach(async (to, from, next) => {
 });
 
 const checkAuthentication = async () => {
+  
   try {
     const token = localStorage.getItem("token");
     if (!token) {
       return false;
     }
-    // const authed = await axios.get("http://localhost:4000/v1/auth/check-auth", {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
     const authed = await axios.get(
       `${process.env.VUE_APP_API}/v1/auth/check-auth`,
       { headers: { Authorization: `Bearer ${token}` } }

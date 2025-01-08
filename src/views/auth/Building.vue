@@ -51,16 +51,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <form method="post" @submit.prevent="onCreateBuilding">
+                    <Form method="post" @submit="onCreateBuilding" :validation-schema="validationCreateSchema">
                         <div class="form-group">
-                            <label for="orderNumber">លេខលំដាប់ :</label>
-                            <input class="form-control" type="number" v-model="orderNumber" required />
+                            <label for="orderNumber">លេខលំដាប់<span class="text-danger">*</span> :</label>
+                            <Field class="form-control" name="orderNumber" type="number" v-model="orderNumber"
+                                required />
+                            <span class="text-danger">
+                                <ErrorMessage name="orderNumber" />
+                            </span>
                         </div>
                         <div class="form-group">
-                            <label for="name">ឈ្មោះអាគារ :</label>
-                            <input class="form-control" type="text" v-model="name" required />
-                            <span v-for="(err, index) in errors" :key="index" class="text-danger">{{ err.message
-                                }}</span>
+                            <label for="name">ឈ្មោះអាគារ<span class="text-danger">*</span> :</label>
+                            <Field class="form-control" name="name" type="text" v-model="name" required />
+                            <span v-for="(err, index) in errors" :key="index" class="text-danger">
+                                {{ err.message }}
+                            </span>
+                            <span class="text-danger">
+                                <ErrorMessage name="name" />
+                            </span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ref="hideCreateModal"
@@ -71,7 +79,7 @@
                                 រក្សាទុក
                             </button>
                         </div>
-                    </form>
+                    </Form>
                 </div>
             </div>
         </div>
@@ -115,6 +123,10 @@
 <script>
 import axios from "axios";
 import Loading from "@/components/Loading.vue";
+import { Field, Form, ErrorMessage } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as zod from 'zod';
+const fieldSchema = toTypedSchema(zod.number().positive().min(1).max(1000));
 export default {
     data() {
         return {
@@ -128,10 +140,18 @@ export default {
                 orderNumber: "",
                 name: "",
             },
+            fieldSchema,
+            validationCreateSchema: toTypedSchema(
+                zod.object({
+                    orderNumber: zod.number({message:"សូមបំពេញលេខលំដាប់"}).positive({message:"លេខលំដាប់ជាចំនួនគត់វិជ្ជមានធំជាង ០"}).min(1, { message: 'សូមបំពេញលេខលំដាប់' }).max(1000, { message: 'លេខលំដាប់មិនអាចធំជាង ១០០០' }),
+                    name: zod.string().min(1, { message: 'សូមបំពេញឈ្មោះអគារ' }),
+                })
+            )
         };
     },
     components: {
         Loading,
+        Field, Form, ErrorMessage
     },
     async mounted() {
         this.actionLoading = true;

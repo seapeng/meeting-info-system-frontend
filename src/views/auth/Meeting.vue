@@ -27,7 +27,8 @@
                             <tr v-for="meeting in meetingList" :key="meeting._id">
                                 <td>
                                     {{ meeting.date }} <br />
-                                    {{ meeting.startTime.name }}
+                                    {{ meeting.sTime }} ដល់
+                                    {{ meeting.eTime }}
                                 </td>
                                 <td>
                                     {{ meeting.title }} <br />
@@ -38,7 +39,7 @@
                                 </td>
                                 <td>
                                     អគារ : {{ meeting.room.building.name }} <br />
-                                    ជាន់ : {{ meeting.room.floor.name }} <br />
+                                    ជាន់ : {{ meeting.room.floor }} <br />
                                     បន្ទប់ : {{ meeting.room.name }}
                                 </td>
                                 <td>
@@ -85,25 +86,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="startTime">ម៉ោងចាប់ផ្តើម :</label>
-                            <select class="form-control" v-model="createMeetingDetail.startTime">
-                                <optgroup label="ម៉ោងចាប់ផ្តើម">
-
-                                    <option v-for="sTime in startTime" :key="sTime._id" :value="sTime._id">
-                                        {{ sTime.name }}
-                                    </option>
-                                </optgroup>
-                            </select>
+                            <label for="sTime">ម៉ោងចាប់ផ្តើម :</label>
+                            <input type="time" class="form-control" v-model="createMeetingDetail.sTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="endTime">ម៉ោងបញ្ចប់ </label>
-                            <select class="form-control" v-model="createMeetingDetail.endTime">
-                                <optgroup label="ម៉ោងចាប់បញ្ចប់">
-                                    <option v-for="eTime in endTime" :key="eTime._id" :value="eTime._id">
-                                        {{ eTime.name }}
-                                    </option>
-                                </optgroup>
-                            </select>
+                            <label for="eTime">ម៉ោងចាប់បញ្ចប់ :</label>
+                            <input type="time" class="form-control" v-model="createMeetingDetail.eTime" required>
                         </div>
                         <div class="form-group">
                             <label for="name">បន្ទប់ប្រជុំ > ជាន់ > អគារ :</label>
@@ -115,16 +103,7 @@
                                 </optgroup>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="status">ស្ថានភាពប្រជុំ :</label>
-                            <select class="form-control" v-model="createMeetingDetail.status">
-                                <optgroup label="ស្ថានភាពប្រជុំ">
-                                    <option v-for="status in statusList" :key="status._id" :value="status._id">
-                                        {{ status.name }}
-                                    </option>
-                                </optgroup>
-                            </select>
-                        </div>
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger" ref="closeCreateModal"
                                 data-dismiss="modal">បដិសេធ</button>
@@ -164,25 +143,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="startTime">ម៉ោងចាប់ផ្តើម :</label>
-                            <select class="form-control" v-model="editMeetingDetail.startTime">
-                                <optgroup label="ម៉ោងចាប់ផ្តើម">
-
-                                    <option v-for="sTime in startTime" :key="sTime._id" :value="sTime._id">
-                                        {{ sTime.name }}
-                                    </option>
-                                </optgroup>
-                            </select>
+                            <label for="sTime">ម៉ោងចាប់ផ្តើម :</label>
+                            <input type="time" class="form-control" v-model="editMeetingDetail.sTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="endTime">ម៉ោងបញ្ចប់ </label>
-                            <select class="form-control" v-model="editMeetingDetail.endTime">
-                                <optgroup label="ម៉ោងចាប់បញ្ចប់">
-                                    <option v-for="eTime in endTime" :key="eTime._id" :value="eTime._id">
-                                        {{ eTime.name }}
-                                    </option>
-                                </optgroup>
-                            </select>
+                            <label for="eTime">ម៉ោងចាប់បញ្ចប់ :</label>
+                            <input type="time" class="form-control" v-model="editMeetingDetail.eTime" required>
                         </div>
                         <div class="form-group">
                             <label for="name">បន្ទប់ប្រជុំ > ជាន់ > អគារ :</label>
@@ -190,16 +156,6 @@
                                 <optgroup label="បន្ទប់ប្រជុំ">
                                     <option v-for="room in roomList" :key="room._id" :value="room._id">
                                         {{ room.name }} > {{ room.floor.name }} > {{ room.building.name }}
-                                    </option>
-                                </optgroup>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">ស្ថានភាពប្រជុំ :</label>
-                            <select class="form-control" v-model="editMeetingDetail.status">
-                                <optgroup label="ស្ថានភាពប្រជុំ">
-                                    <option v-for="status in statusList" :key="status._id" :value="status._id">
-                                        {{ status.name }}
                                     </option>
                                 </optgroup>
                             </select>
@@ -233,9 +189,6 @@ export default {
             meetingList: [],
             managementList: [],
             roomList: [],
-            startTimeList: [],
-            endTimeList: [],
-            statusList: []
         }
     },
     components: {
@@ -263,31 +216,6 @@ export default {
             }).then(response => {
                 if (response.data.success) {
                     this.roomList = response.data.data
-                }
-            }).catch(error => console.error(error))
-        },
-        async fetchTimes() {
-            await axios.get(`${process.env.VUE_APP_API}/v1/enums/times`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }).then(response => {
-                if (response.data.success) {
-                    this.startTime = response.data.data
-                    this.endTime = response.data.data
-                }
-            }).catch(error => console.error(error))
-        },
-        async fetchStatuses() {
-            await axios.get(`${process.env.VUE_APP_API}/v1/enums/statuses`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }).then(response => {
-                if (response.data.success) {
-                    this.statusList = response.data.data
                 }
             }).catch(error => console.error(error))
         },
@@ -321,13 +249,7 @@ export default {
                     })
                     .then(response => {
                         if (response.data.success) {
-                            this.createMeetingDetail.startTime = this.startTime[2]._id
-                            this.createMeetingDetail.endTime = this.endTime[4]._id
-                            this.createMeetingDetail.management = this.managementList[0]._id
-                            this.createMeetingDetail.room = this.roomList[0]._id
-                            this.createMeetingDetail.status = this.statusList[0]._id
-                            this.createMeetingDetail.date = this.currentDate
-                            this.createMeetingDetail.title = ""
+                            this.createMeetingDetail = {}
                             this.fetchMeetings()
                             this.$refs.closeCreateModal.click();
                         }
@@ -374,13 +296,12 @@ export default {
                         if (response.data.success) {
                             const dt = response.data.data;
                             this.editMeetingDetail.id = dt._id
-                            this.editMeetingDetail.startTime = dt.startTime._id
-                            this.editMeetingDetail.endTime = dt.endTime._id
                             this.editMeetingDetail.management = dt.management._id
                             this.editMeetingDetail.room = dt.room._id
-                            this.editMeetingDetail.status = dt.status._id
                             this.editMeetingDetail.date = dt.date
                             this.editMeetingDetail.title = dt.title
+                            this.editMeetingDetail.sTime = dt.sTime
+                            this.editMeetingDetail.eTime = dt.eTime
                         }
                     })
                     .catch(error => console.error(error))
@@ -416,15 +337,8 @@ export default {
         this.actionLoading = true
         await this.fetchManagements()
         await this.fetchRooms()
-        await this.fetchTimes()
-        await this.fetchStatuses()
         await this.fetchMeetings()
-        // this.createMeetingDetail.startTime = this.startTime[0]._id | ""
-        // this.createMeetingDetail.endTime = this.endTime[1]._id | ""
-        // this.createMeetingDetail.management = this.managementList[0]._id | ""
-        // this.createMeetingDetail.room = this.roomList[0]._id | ""
-        // this.createMeetingDetail.status = this.statusList[0]._id | ""
-        // this.createMeetingDetail.date = this.currentDate | ""
+       
         this.actionLoading = false
     },
 }
