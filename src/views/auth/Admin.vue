@@ -3,7 +3,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <div class="float-left">
-                    <h6 class="m-0 font-weight-bold text-primary">ថ្នាក់ដឹកនាំ</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">គណនីគ្រប់គ្រង</h6>
                 </div>
 
                 <div class="float-right margin-top-2">
