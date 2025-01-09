@@ -21,7 +21,8 @@
                             <tr v-for="meeting in meetingHistoryList" :key="meeting._id">
                                 <td>
                                     {{ meeting.date }} <br />
-                                    {{ meeting.startTime.name }}
+                                    {{ meeting.sTime }} ដល់
+                                    {{ meeting.eTime }}
                                 </td>
                                 <td>
                                     {{ meeting.title }} <br />
@@ -32,7 +33,7 @@
                                 </td>
                                 <td>
                                     អគារ : {{ meeting.room.building.name }} <br />
-                                    ជាន់ : {{ meeting.room.floor.name }} <br />
+                                    ជាន់ : {{ meeting.room.floor }} <br />
                                     បន្ទប់ : {{ meeting.room.name }}
                                 </td>
                             </tr>
